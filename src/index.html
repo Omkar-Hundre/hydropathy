@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supply Chain Dashboard - Industries</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-water company-logo"></i>
+                <h2>Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="procurement.html"><i class="fas fa-shopping-basket"></i>Procurement</a>
+                    </li>
+                    <li>
+                        <a href="vendors.html"><i class="fas fa-users"></i>Vendors</a>
+                    </li>
+                    <li>
+                        <a href="inventory.html"><i class="fas fa-boxes"></i>Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#marketplace"><i class="fas fa-store"></i>Marketplace</a>
+                    </li>
+                    <li>
+                        <a href="#reports"><i class="fas fa-chart-bar"></i>Reports</a>
+                    </li>
+                    <li>
+                        <a href="#notifications"><i class="fas fa-bell"></i>Notifications</a>
+                    </li>
+                    <li>
+                        <a href="#settings"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search vendors, orders, items...">
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">3</span>
+                        <div class="notification-dropdown">
+                            <!-- Notifications will be populated by JavaScript -->
+                        </div>
+                    </div>
+                    <div class="user-info">
+                        <img src="assets/default-avatar.png" alt="User Avatar" id="user-avatar">
+                        <div class="user-details">
+                            <span id="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                        <button id="logout-btn"><i class="fas fa-sign-out-alt"></i></button>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-content">
+                <!-- Quick Actions -->
+                <section class="quick-actions">
+                    <button class="action-btn primary">
+                        <i class="fas fa-plus"></i>New Procurement Request
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-user-plus"></i>Add Vendor
+                    </button>
+                    <button class="action-btn">
+                        <i class="fas fa-file-invoice"></i>Generate Report
+                    </button>
+                </section>
+
+                <!-- Stats Overview -->
+                <section class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+                        <div class="stat-details">
+                            <h3>Total Procurement Value</h3>
+                            <p class="stat-value" id="total-procurement">$0</p>
+                            <p class="stat-change positive">+15% <span>vs last month</span></p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-shopping-cart"></i></div>
+                        <div class="stat-details">
+                            <h3>Pending Requests</h3>
+                            <p class="stat-value" id="pending-requests-count">0</p>
+                            <p class="stat-change warning">5 need approval</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-details">
+                            <h3>Active Vendors</h3>
+                            <p class="stat-value" id="active-vendors">0</p>
+                            <p class="stat-change positive">+3 this month</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-boxes"></i></div>
+                        <div class="stat-details">
+                            <h3>Low Stock Items</h3>
+                            <p class="stat-value" id="low-stock">0</p>
+                            <p class="stat-change negative">Needs attention</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Main Grid -->
+                <div class="main-grid">
+                    <!-- Procurement Requests Section -->
+                    <section class="procurement-section">
+                        <div class="section-header">
+                            <div class="header-left">
+                                <h2>Recent Procurement Requests</h2>
+                                <span class="request-count">12 new requests</span>
+                            </div>
+                            <div class="header-actions">
+                                <button class="filter-btn">
+                                    <i class="fas fa-filter"></i> Filter
+                                </button>
+                                <button class="view-all-btn">View All</button>
+                            </div>
+                        </div>
+                        <div class="procurement-table">
+                            <div class="table-header">
+                                <div class="col">ID</div>
+                                <div class="col">Item Details</div>
+                                <div class="col">Requester</div>
+                                <div class="col">Date</div>
+                                <div class="col">Amount</div>
+                                <div class="col">Status</div>
+                                <div class="col">Actions</div>
+                            </div>
+                            <div class="procurement-list" id="procurement-list">
+                                <!-- Loading state -->
+                                <div class="loading-state">
+                                    <i class="fas fa-spinner fa-spin"></i>
+                                    <p>Loading procurement data...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Price Trends Section -->
+                    <section class="trends-section">
+                        <div class="section-header">
+                            <div class="header-left">
+                                <h2>Price Trends</h2>
+                                <span class="subtitle">Track price variations of key materials</span>
+                            </div>
+                            <div class="trend-controls">
+                                <div class="product-selector">
+                                    <select id="productSelect">
+                                        <option value="all">All Products</option>
+                                        <option value="pumps">Industrial Pumps</option>
+                                        <option value="filters">Water Filters</option>
+                                        <option value="chemicals">Treatment Chemicals</option>
+                                        <option value="sensors">Monitoring Sensors</option>
+                                    </select>
+                                </div>
+                                <div class="trend-filters">
+                                    <button class="trend-btn active" data-period="weekly">Weekly</button>
+                                    <button class="trend-btn" data-period="monthly">Monthly</button>
+                                    <button class="trend-btn" data-period="yearly">Yearly</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="trend-chart-container">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                        <div class="trend-insights">
+                            <div class="insight-card">
+                                <i class="fas fa-arrow-trend-up"></i>
+                                <div class="insight-content">
+                                    <h4>Highest Increase</h4>
+                                    <p>Industrial Pumps (+8.5%)</p>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <i class="fas fa-arrow-trend-down"></i>
+                                <div class="insight-content">
+                                    <h4>Highest Decrease</h4>
+                                    <p>Treatment Chemicals (-3.2%)</p>
+                                </div>
+                            </div>
+                            <div class="insight-card">
+                                <i class="fas fa-clock"></i>
+                                <div class="insight-content">
+                                    <h4>Price Volatility</h4>
+                                    <p>Moderate (±5.8%)</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Vendor Performance Section -->
+                    <section class="vendor-section">
+                        <div class="section-header">
+                            <div class="header-left">
+                                <h2>Top Vendors</h2>
+                                <span class="subtitle">Performance metrics of key suppliers</span>
+                            </div>
+                            <div class="header-actions">
+                                <select id="vendorMetricSelect">
+                                    <option value="performance">Overall Performance</option>
+                                    <option value="delivery">Delivery Time</option>
+                                    <option value="quality">Quality Score</option>
+                                    <option value="pricing">Pricing Competitiveness</option>
+                                </select>
+                                <button class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+                            </div>
+                        </div>
+                        <div class="vendor-content">
+                            <div class="vendor-grid" id="vendor-list">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                            <div class="vendor-chart-container">
+                                <canvas id="vendorChart"></canvas>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Inventory Status Section -->
+                    <section class="inventory-section">
+                        <div class="section-header">
+                            <div class="header-left">
+                                <h2>Inventory Status</h2>
+                                <span class="subtitle">Current stock levels and alerts</span>
+                            </div>
+                            <button class="view-all-btn">Manage Inventory</button>
+                        </div>
+                        <div class="inventory-content">
+                            <div class="inventory-overview">
+                                <canvas id="inventoryChart"></canvas>
+                            </div>
+                            <div class="inventory-alerts" id="inventory-alerts">
+                                <!-- Will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Recent Activity -->
+                <section class="activity-section">
+                    <div class="section-header">
+                        <h2>Recent Activity</h2>
+                        <button class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+                    </div>
+                    <div class="activity-list" id="activity-list">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDtOgfObFOJl3E7Yr322RfjUqaSG99E3dQ",
+            authDomain: "sample-dashboard-cb785.firebaseapp.com",
+            projectId: "sample-dashboard-cb785",
+            storageBucket: "sample-dashboard-cb785.firebasestorage.app",
+            messagingSenderId: "840149826725",
+            appId: "1:840149826725:web:2bd4de3d7b1ad4c4b5a14c"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+    </script>
+    <script src="js/admin.js"></script>
+</body>
+</html> 

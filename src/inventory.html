@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management - Industries</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-water company-logo"></i>
+                <h2>Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="index.html"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="procurement.html"><i class="fas fa-shopping-basket"></i>Procurement</a>
+                    </li>
+                    <li>
+                        <a href="vendors.html"><i class="fas fa-users"></i>Vendors</a>
+                    </li>
+                    <li class="active">
+                        <a href="inventory.html"><i class="fas fa-boxes"></i>Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#marketplace"><i class="fas fa-store"></i>Marketplace</a>
+                    </li>
+                    <li>
+                        <a href="#reports"><i class="fas fa-chart-bar"></i>Reports</a>
+                    </li>
+                    <li>
+                        <a href="#notifications"><i class="fas fa-bell"></i>Notifications</a>
+                    </li>
+                    <li>
+                        <a href="#settings"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Top Navigation -->
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <div class="user-info">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="User" class="user-avatar">
+                        <div class="user-details">
+                            <span id="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button class="action-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content-wrapper">
+                <!-- Page Header -->
+                <div class="page-header">
+                    <h1>Inventory Management</h1>
+                    <div class="header-actions">
+                        <button class="btn-secondary" id="exportInventoryBtn">
+                            <i class="fas fa-file-export"></i> Export
+                        </button>
+                        <button class="btn-primary" id="addItemBtn">
+                            <i class="fas fa-plus"></i> Add Item
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Inventory Overview Cards -->
+                <section class="inventory-overview">
+                    <div class="overview-card total-items">
+                        <div class="card-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Items</h3>
+                            <p class="card-value" id="totalItems">245</p>
+                            <p class="card-trend">Across all categories</p>
+                        </div>
+                    </div>
+                    <div class="overview-card low-stock">
+                        <div class="card-icon">
+                            <i class="fas fa-exclamation-triangle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Low Stock Alerts</h3>
+                            <p class="card-value" id="lowStockCount">12</p>
+                            <p class="card-trend negative">Needs attention</p>
+                        </div>
+                    </div>
+                    <div class="overview-card stock-value">
+                        <div class="card-icon">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Stock Value</h3>
+                            <p class="card-value" id="stockValue">$487,500</p>
+                            <p class="card-trend positive">+5.2% this month</p>
+                        </div>
+                    </div>
+                    <div class="overview-card reorder">
+                        <div class="card-icon">
+                            <i class="fas fa-sync"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pending Reorders</h3>
+                            <p class="card-value" id="reorderCount">8</p>
+                            <p class="card-trend">In process</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Inventory Controls -->
+                <section class="inventory-controls">
+                    <div class="search-and-filters">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="inventorySearch" placeholder="Search items...">
+                        </div>
+                        <div class="filter-controls">
+                            <select class="category-filter" id="categoryFilter">
+                                <option value="all">All Categories</option>
+                                <option value="pumps">Industrial Pumps</option>
+                                <option value="filters">Water Filters</option>
+                                <option value="chemicals">Treatment Chemicals</option>
+                                <option value="sensors">Monitoring Sensors</option>
+                            </select>
+                            <select class="status-filter" id="stockFilter">
+                                <option value="all">All Stock Status</option>
+                                <option value="in-stock">In Stock</option>
+                                <option value="low-stock">Low Stock</option>
+                                <option value="out-of-stock">Out of Stock</option>
+                            </select>
+                            <button class="filter-btn" id="moreFiltersBtn">
+                                <i class="fas fa-filter"></i> More Filters
+                            </button>
+                        </div>
+                    </div>
+                    <div class="advanced-filters" id="advancedFilters">
+                        <div class="filter-group">
+                            <label>Price Range</label>
+                            <div class="price-range">
+                                <input type="number" placeholder="Min" id="priceMin">
+                                <span>to</span>
+                                <input type="number" placeholder="Max" id="priceMax">
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Stock Level</label>
+                            <select id="stockLevelFilter">
+                                <option value="all">All Levels</option>
+                                <option value="critical">Critical (Below 10%)</option>
+                                <option value="low">Low (Below 25%)</option>
+                                <option value="normal">Normal (25-75%)</option>
+                                <option value="high">High (Above 75%)</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <select id="locationFilter">
+                                <option value="all">All Locations</option>
+                                <option value="warehouse-a">Warehouse A</option>
+                                <option value="warehouse-b">Warehouse B</option>
+                                <option value="store-room">Store Room</option>
+                            </select>
+                        </div>
+                        <button class="btn-primary" id="applyFilters">Apply Filters</button>
+                        <button class="btn-secondary" id="resetFilters">Reset</button>
+                    </div>
+                </section>
+
+                 <!-- Inventory Table -->
+                <section class="inventory-table-section">
+                    <div class="table-header">
+                        <div class="bulk-actions">
+                            <button class="btn-secondary" id="bulkExportBtn">
+                                <i class="fas fa-file-export"></i> Export Selected
+                            </button>
+                            <button class="btn-danger" id="bulkDeleteBtn">
+                                <i class="fas fa-trash"></i> Delete Selected
+                            </button>
+                        </div>
+                        <div class="table-view-controls">
+                            <button class="view-btn active" data-view="table">
+                                <i class="fas fa-list"></i>
+                            </button>
+                            <button class="view-btn" data-view="grid">
+                                <i class="fas fa-th-large"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Add this after the inventory controls section -->
+                <section class="quick-scan-section" id="scannerSection" style="display: none;">
+                    <div class="scanner-container">
+                        <div id="scanner-view"></div>
+                        <div class="scanner-overlay">
+                            <div class="scanner-guide"></div>
+                        </div>
+                    </div>
+                    <div class="scan-results">
+                        <h3>Scanned Items</h3>
+                        <div class="scanned-items-list" id="scannedItems">
+                            <!-- Will be populated by JavaScript -->
+                        </div>
+                        <div class="scan-actions">
+                            <button class="btn-secondary" id="cancelScan">Cancel</button>
+                            <button class="btn-primary" id="updateScanned">Update Inventory</button>
+                        </div>
+                    </div>
+                </section>
+                    <div class="table-container">
+                        <table class="inventory-table">
+                            <thead>
+                                <tr>
+                                    <th>
+                                        <input type="checkbox" id="selectAll">
+                                    </th>
+                                    <th>Item Code</th>
+                                    <th>Item Name</th>
+                                    <th>Category</th>
+                                    <th>Stock Level</th>
+                                    <th>Reorder Point</th>
+                                    <th>Unit Price</th>
+                                    <th>Total Value</th>
+                                    <th>Status</th>
+                                    <th>Location</th>
+                                    <th>Last Updated</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="inventoryTableBody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <span class="pagination-info">Showing 1-10 of 245 items</span>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stock Level Analysis -->
+                <section class="stock-analysis">
+                    <div class="chart-container">
+                        <canvas id="stockLevelChart"></canvas>
+                    </div>
+                    <div class="stock-metrics">
+                        <div class="metric-card">
+                            <h3>Stock Distribution</h3>
+                            <canvas id="stockDistributionChart"></canvas>
+                        </div>
+                        <div class="metric-card">
+                            <h3>Inventory Turnover</h3>
+                            <div class="turnover-stats">
+                                <div class="stat-item">
+                                    <span class="stat-label">Monthly Rate</span>
+                                    <span class="stat-value">2.4x</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-label">Avg Days</span>
+                                    <span class="stat-value">15</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+               
+
+                
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Item Modal -->
+    <div class="inventory-modal" id="addItemModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Item</h2>
+                <button class="close-modal" id="closeModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="addItemForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="itemName">Item Name</label>
+                            <input type="text" id="itemName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="itemCategory">Category</label>
+                            <select id="itemCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="pumps">Industrial Pumps</option>
+                                <option value="filters">Water Filters</option>
+                                <option value="chemicals">Treatment Chemicals</option>
+                                <option value="sensors">Monitoring Sensors</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="initialStock">Initial Stock</label>
+                            <input type="number" id="initialStock" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reorderPoint">Reorder Point</label>
+                            <input type="number" id="reorderPoint" min="0" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="unitPrice">Unit Price ($)</label>
+                            <input type="number" id="unitPrice" min="0" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="location">Storage Location</label>
+                            <input type="text" id="location" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" rows="3" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBtn">Cancel</button>
+                <button class="btn-primary" id="saveItemBtn">Add Item</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add this before the closing body tag -->
+    <div class="inventory-modal" id="batchOperationsModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Batch Operations</h2>
+                <button class="close-modal" id="closeBatchModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="batch-options">
+                    <div class="option-group">
+                        <h3>Update Stock Levels</h3>
+                        <div class="form-group">
+                            <label>Adjustment Type</label>
+                            <select id="adjustmentType">
+                                <option value="increase">Increase</option>
+                                <option value="decrease">Decrease</option>
+                                <option value="set">Set to Value</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" id="adjustmentAmount" min="0">
+                        </div>
+                    </div>
+                    <div class="option-group">
+                        <h3>Update Locations</h3>
+                        <div class="form-group">
+                            <label>New Location</label>
+                            <select id="batchLocation">
+                                <option value="">Select Location</option>
+                                <option value="warehouse-a">Warehouse A</option>
+                                <option value="warehouse-b">Warehouse B</option>
+                                <option value="store-room">Store Room</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" id="cancelBatchBtn">Cancel</button>
+                <button class="btn-primary" id="applyBatchBtn">Apply Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html> 

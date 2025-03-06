@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Management - Industries</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/vendors.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-water company-logo"></i>
+                <h2>Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="index.html"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="procurement.html"><i class="fas fa-shopping-basket"></i>Procurement</a>
+                    </li>
+                    <li class="active">
+                        <a href="vendors.html"><i class="fas fa-users"></i>Vendors</a>
+                    </li>
+                    <li>
+                        <a href="inventory.html"><i class="fas fa-boxes"></i>Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#marketplace"><i class="fas fa-store"></i>Marketplace</a>
+                    </li>
+                    <li>
+                        <a href="#reports"><i class="fas fa-chart-bar"></i>Reports</a>
+                    </li>
+                    <li>
+                        <a href="#notifications"><i class="fas fa-bell"></i>Notifications</a>
+                    </li>
+                    <li>
+                        <a href="#settings"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <div class="user-info">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="User" class="user-avatar">
+                        <div class="user-details">
+                            <span id="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button class="action-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h1>Vendor Management</h1>
+                    <button class="btn-primary vendor-add-btn" id="addVendorBtn">
+                        <i class="fas fa-plus"></i> Add New Vendor
+                    </button>
+                </div>
+
+                <!-- Vendor Overview Cards -->
+                <section class="vendor-overview" id="vendorMetrics">
+                    <div class="overview-card vendor-active-card">
+                        <div class="card-icon active">
+                            <i class="fas fa-handshake"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Active Vendors</h3>
+                            <p class="card-value" id="activeVendorsCount">28</p>
+                            <p class="card-trend positive">+3 this month</p>
+                        </div>
+                    </div>
+                    <div class="overview-card vendor-pending-card">
+                        <div class="card-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pending Approvals</h3>
+                            <p class="card-value" id="pendingVendorsCount">5</p>
+                            <p class="card-trend">New applications</p>
+                        </div>
+                    </div>
+                    <div class="overview-card vendor-rating-card">
+                        <div class="card-icon performance">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Average Rating</h3>
+                            <p class="card-value" id="avgVendorRating">4.5</p>
+                            <p class="card-trend positive">+0.3 vs last month</p>
+                        </div>
+                    </div>
+                    <div class="overview-card vendor-orders-card">
+                        <div class="card-icon orders">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Active Orders</h3>
+                            <p class="card-value" id="activeOrdersCount">12</p>
+                            <p class="card-trend">With 8 vendors</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vendor Search and Filters -->
+                <section class="vendor-controls" id="vendorFilters">
+                    <div class="search-box vendor-search">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="vendorSearchInput" placeholder="Search vendors...">
+                    </div>
+                    <div class="vendor-filter-controls">
+                        <select class="vendor-category-filter" id="categoryFilter">
+                            <option value="all">All Categories</option>
+                            <option value="pumps">Pumps</option>
+                            <option value="filters">Filters</option>
+                            <option value="chemicals">Chemicals</option>
+                            <option value="equipment">Equipment</option>
+                        </select>
+                        <select class="vendor-rating-filter" id="ratingFilter">
+                            <option value="all">All Ratings</option>
+                            <option value="4">4★ & Above</option>
+                            <option value="3">3★ & Above</option>
+                            <option value="2">2★ & Above</option>
+                        </select>
+                        <button class="vendor-filter-btn" id="moreFiltersBtn">
+                            <i class="fas fa-filter"></i> More Filters
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Vendor List -->
+                <section class="vendor-list-section">
+                    <div class="vendor-grid" id="vendor-grid">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </section>
+
+                <!-- Performance Analytics -->
+                <section class="vendor-analytics">
+                    <div class="section-header">
+                        <h2>Performance Analytics</h2>
+                        <div class="header-actions">
+                            <select class="time-range">
+                                <option value="month">Last Month</option>
+                                <option value="quarter">Last Quarter</option>
+                                <option value="year">Last Year</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="chart-container">
+                            <canvas id="vendorPerformanceChart"></canvas>
+                        </div>
+                        <div class="metrics-container">
+                            <div class="metric-card">
+                                <h3>On-Time Delivery</h3>
+                                <div class="progress-circle" data-value="85">
+                                    <span>85%</span>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <h3>Quality Score</h3>
+                                <div class="progress-circle" data-value="92">
+                                    <span>92%</span>
+                                </div>
+                            </div>
+                            <div class="metric-card">
+                                <h3>Price Competitiveness</h3>
+                                <div class="progress-circle" data-value="78">
+                                    <span>78%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="vendor-modal" id="newVendorModal">
+        <div class="vendor-modal-content">
+            <div class="vendor-modal-header">
+                <h2>Add New Vendor</h2>
+                <button class="close-modal" id="closeVendorModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="vendor-modal-body">
+                <form id="newVendorForm">
+                    <div class="vendor-form-row">
+                        <div class="vendor-form-group">
+                            <label for="vendorName">Company Name</label>
+                            <input type="text" id="vendorName" required>
+                        </div>
+                        <div class="vendor-form-group">
+                            <label for="vendorCategory">Category</label>
+                            <select id="vendorCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="pumps">Industrial Pumps</option>
+                                <option value="filters">Water Filters</option>
+                                <option value="chemicals">Treatment Chemicals</option>
+                                <option value="equipment">Equipment</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="vendor-form-group">
+                        <label for="vendorEmail">Email Address</label>
+                        <input type="email" id="vendorEmail" required>
+                    </div>
+                    <div class="vendor-form-row">
+                        <div class="vendor-form-group">
+                            <label for="vendorPhone">Phone Number</label>
+                            <input type="tel" id="vendorPhone" required>
+                        </div>
+                        <div class="vendor-form-group">
+                            <label for="vendorWebsite">Website</label>
+                            <input type="url" id="vendorWebsite" placeholder="https://">
+                        </div>
+                    </div>
+                    <div class="vendor-form-group">
+                        <label for="vendorAddress">Business Address</label>
+                        <textarea id="vendorAddress" rows="3" required></textarea>
+                    </div>
+                    <div class="vendor-form-group">
+                        <label for="vendorDescription">Company Description</label>
+                        <textarea id="vendorDescription" rows="4" required></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="vendor-modal-footer">
+                <button class="vendor-btn secondary" id="cancelVendorBtn">Cancel</button>
+                <button class="vendor-btn primary" id="saveVendorBtn">Add Vendor</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/vendors.js"></script>
+</body>
+</html> 

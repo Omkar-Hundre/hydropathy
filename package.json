@@ -1,0 +1,20 @@
+{
+  "name": "hydropathy-dashboard",
+  "version": "1.0.0",
+  "description": "Supply Chain Dashboard for Hydropathy Industries",
+  "main": "src/js/main.js",
+  "scripts": {
+    "start": "serve src",
+    "dev": "serve src -l 3000",
+    "build": "echo 'No build step required'"
+  },
+  "dependencies": {
+    "firebase": "^10.14.1",
+    "firebase-admin": "^12.7.0",
+    "firebase-auth": "^0.1.2",
+    "serve": "^14.2.4"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.7"
+  }
+}

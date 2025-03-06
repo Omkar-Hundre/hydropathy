@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Procurement Management - Industries</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay"></div>
+
+    <div class="dashboard-container">
+        <!-- Sidebar - Same as index.html -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-water company-logo"></i>
+                <h2>Dashboard</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li>
+                        <a href="index.html"><i class="fas fa-home"></i>Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <a href="procurement.html"><i class="fas fa-shopping-basket"></i>Procurement</a>
+                    </li>
+                    <li>
+                        <a href="vendors.html"><i class="fas fa-users"></i>Vendors</a>
+                    </li>
+                    <li>
+                        <a href="inventory.html"><i class="fas fa-boxes"></i>Inventory</a>
+                    </li>
+                    <li>
+                        <a href="#marketplace"><i class="fas fa-store"></i>Marketplace</a>
+                    </li>
+                    <li>
+                        <a href="#reports"><i class="fas fa-chart-bar"></i>Reports</a>
+                    </li>
+                    <li>
+                        <a href="#notifications"><i class="fas fa-bell"></i>Notifications</a>
+                    </li>
+                    <li>
+                        <a href="#settings"><i class="fas fa-cog"></i>Settings</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <nav class="top-nav">
+                <div class="nav-left">
+                    <div class="user-info">
+                        <img src="https://ui-avatars.com/api/?name=Admin+User" alt="User" class="user-avatar">
+                        <div class="user-details">
+                            <span id="user-name">Admin User</span>
+                            <span class="user-role">Administrator</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-right">
+                    <div class="nav-actions">
+                        <button class="action-btn">
+                            <i class="fas fa-bell"></i>
+                            <span class="notification-badge">3</span>
+                        </button>
+                        <button class="action-btn">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                        <button class="action-btn" id="logout-btn">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h1>Procurement Management</h1>
+                    <button class="new-request-btn">
+                        <i class="fas fa-plus"></i> New Request
+                    </button>
+                </div>
+
+                <!-- Procurement Overview Cards -->
+                <section class="procurement-overview">
+                    <div class="overview-card">
+                        <div class="card-icon pending">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Pending Requests</h3>
+                            <p class="card-value">12</p>
+                            <p class="card-trend positive">+3 from last week</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon processing">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>In Process</h3>
+                            <p class="card-value">8</p>
+                            <p class="card-trend">Active orders</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon completed">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Completed</h3>
+                            <p class="card-value">45</p>
+                            <p class="card-trend">This month</p>
+                        </div>
+                    </div>
+                    <div class="overview-card">
+                        <div class="card-icon total">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3>Total Value</h3>
+                            <p class="card-value">$284,500</p>
+                            <p class="card-trend positive">+12% vs last month</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Procurement Filters and Search -->
+                <section class="procurement-controls">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search requests...">
+                    </div>
+                    <div class="filter-controls">
+                        <select class="status-filter">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="approved">Approved</option>
+                            <option value="processing">Processing</option>
+                            <option value="completed">Completed</option>
+                            <option value="rejected">Rejected</option>
+                        </select>
+                        <select class="date-filter">
+                            <option value="all">All Time</option>
+                            <option value="today">Today</option>
+                            <option value="week">This Week</option>
+                            <option value="month">This Month</option>
+                            <option value="quarter">This Quarter</option>
+                        </select>
+                        <button class="filter-btn">
+                            <i class="fas fa-filter"></i> More Filters
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Procurement Table -->
+                <section class="procurement-table-section">
+                    <div class="table-container">
+                        <table class="procurement-table">
+                            <thead>
+                                <tr>
+                                    <th>Request ID</th>
+                                    <th>Item Details</th>
+                                    <th>Requester</th>
+                                    <th>Date</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="procurement-tbody">
+                                <!-- Will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="table-pagination">
+                        <span class="pagination-info">Showing 1-10 of 45 entries</span>
+                        <div class="pagination-controls">
+                            <button class="pagination-btn" disabled><i class="fas fa-chevron-left"></i></button>
+                            <button class="pagination-btn active">1</button>
+                            <button class="pagination-btn">2</button>
+                            <button class="pagination-btn">3</button>
+                            <button class="pagination-btn"><i class="fas fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Vendor Quotations -->
+                <section class="vendor-quotations">
+                    <div class="section-header">
+                        <h2>Vendor Quotations</h2>
+                        <div class="header-actions">
+                            <select class="request-filter">
+                                <option value="all">All Requests</option>
+                                <option value="pending">Pending Quotations</option>
+                                <option value="received">Received Quotations</option>
+                            </select>
+                            <button class="refresh-btn"><i class="fas fa-sync-alt"></i></button>
+                        </div>
+                    </div>
+
+                    <div class="quotations-grid">
+                        <!-- Quotation Cards -->
+                        <div class="quotation-card">
+                            <div class="request-details">
+                                <span class="request-id">PRQ001</span>
+                                <h3>Industrial Pumps (5 units)</h3>
+                                <p class="deadline">Quote Deadline: Mar 15, 2024</p>
+                            </div>
+                            <div class="vendors-list">
+                                <div class="vendor-quote received">
+                                    <div class="vendor-info">
+                                        <img src="https://ui-avatars.com/api/?name=Hydro+Tech" alt="Vendor" class="vendor-avatar">
+                                        <div>
+                                            <h4>HydroTech Solutions</h4>
+                                            <div class="vendor-rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.8</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="quote-details">
+                                        <p class="quote-amount">$12,500</p>
+                                        <p class="delivery-time">Delivery: 7 days</p>
+                                    </div>
+                                    <button class="accept-quote">Accept Quote</button>
+                                </div>
+
+                                <div class="vendor-quote received">
+                                    <div class="vendor-info">
+                                        <img src="https://ui-avatars.com/api/?name=Aqua+Systems" alt="Vendor" class="vendor-avatar">
+                                        <div>
+                                            <h4>Aqua Systems</h4>
+                                            <div class="vendor-rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.5</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="quote-details">
+                                        <p class="quote-amount">$13,200</p>
+                                        <p class="delivery-time">Delivery: 5 days</p>
+                                    </div>
+                                    <button class="accept-quote">Accept Quote</button>
+                                </div>
+
+                                <div class="vendor-quote pending">
+                                    <div class="vendor-info">
+                                        <img src="https://ui-avatars.com/api/?name=Pure+Flow" alt="Vendor" class="vendor-avatar">
+                                        <div>
+                                            <h4>Pure Flow Inc</h4>
+                                            <div class="vendor-rating">
+                                                <i class="fas fa-star"></i>
+                                                <span>4.2</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="quote-details">
+                                        <p class="awaiting">Awaiting Quote</p>
+                                        <p class="reminder-sent">Reminder Sent</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="comparison-summary">
+                                <h4>Quote Analysis</h4>
+                                <div class="comparison-metrics">
+                                    <div class="metric">
+                                        <span>Best Price</span>
+                                        <strong>HydroTech ($12,500)</strong>
+                                    </div>
+                                    <div class="metric">
+                                        <span>Fastest Delivery</span>
+                                        <strong>Aqua Systems (5 days)</strong>
+                                    </div>
+                                    <div class="metric">
+                                        <span>Highest Rated</span>
+                                        <strong>HydroTech (4.8★)</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Order Tracking -->
+                <section class="order-tracking">
+                    <div class="section-header">
+                        <h2>Order Status</h2>
+                        <div class="header-actions">
+                            <select class="status-filter">
+                                <option value="all">All Orders</option>
+                                <option value="processing">Processing</option>
+                                <option value="shipped">Shipped</option>
+                                <option value="delivered">Delivered</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="orders-timeline">
+                        <div class="order-item">
+                            <div class="order-header">
+                                <div class="order-info">
+                                    <h3>Order #ORD-2024-001</h3>
+                                    <span class="order-date">Placed on: Feb 28, 2024</span>
+                                </div>
+                                <span class="status-badge processing">Processing</span>
+                            </div>
+                            <div class="timeline-steps">
+                                <div class="step completed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="step-content">
+                                        <h4>Order Placed</h4>
+                                        <p>Feb 28, 2024 10:30 AM</p>
+                                    </div>
+                                </div>
+                                <div class="step completed">
+                                    <i class="fas fa-check-circle"></i>
+                                    <div class="step-content">
+                                        <h4>Payment Confirmed</h4>
+                                        <p>Feb 28, 2024 2:15 PM</p>
+                                    </div>
+                                </div>
+                                <div class="step active">
+                                    <i class="fas fa-cog fa-spin"></i>
+                                    <div class="step-content">
+                                        <h4>Processing</h4>
+                                        <p>Estimated: Mar 2, 2024</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <i class="fas fa-truck"></i>
+                                    <div class="step-content">
+                                        <h4>Shipping</h4>
+                                        <p>Expected: Mar 4, 2024</p>
+                                    </div>
+                                </div>
+                                <div class="step">
+                                    <i class="fas fa-box"></i>
+                                    <div class="step-content">
+                                        <h4>Delivery</h4>
+                                        <p>Expected: Mar 7, 2024</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script src="js/procurement.js"></script>
+</body>
+</html> 
